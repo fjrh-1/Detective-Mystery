@@ -4,6 +4,8 @@
 #include <ctime>      // tiempo
 #include <fstream>    // archivos
 
+using namespace std;
+
 //  Arreglo de datos en formato cadena de texto
 string sospechosos[5];
 string armas[5];
@@ -20,9 +22,17 @@ int acusaciones;
 
 bool jugando;
 
-int main(){
-    // Randomizador de partidas, para que cada partida sea distinta
+// Prototipos
+void inicializarDatos();
+void menuPrincipal();
+
+int main()
+{
     srand(time(NULL));
+
+    inicializarDatos();
+
+    menuPrincipal();
 
     return 0;
 }
