@@ -17,8 +17,8 @@ int armaCorrecta;
 int habitacionCorrecta;
 int turnos;
 int acusaciones;
-
 bool jugando;
+bool jugarOtraVez;
 
 int main(){
     // Randomizador de partidas, para que cada partida sea distinta
