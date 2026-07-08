@@ -1,7 +1,7 @@
-#include "datos.h"
-#include "utilidades.h"
-#include "juego.h"
-#include "archivos.h"
+#include "data/datos.h"
+#include "fun/utilidades.h"
+#include "fun/juego.h"
+#include "fun/archivos.h"
 #include <iostream>
 #include <cstdlib>
 #include <ctime>

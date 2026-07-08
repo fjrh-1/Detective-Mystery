@@ -1,5 +1,5 @@
 #include "archivos.h"
-#include "datos.h"
+#include "../data/datos.h"
 #include "utilidades.h"
 #include "juego.h"
 #include <iostream>
@@ -7,7 +7,7 @@
 using namespace std;
 
 void guardarPartida() {
-    ofstream archivo("partida.txt");
+    ofstream archivo("files/partida.txt");
     if (!archivo) {
         cout << "No se pudo guardar la partida.\n";
         return;
@@ -35,11 +35,11 @@ void guardarPartida() {
 }
 
 bool cargarPartida() {
-    if (!existeArchivo("partida.txt")) {
+    if (!existeArchivo("files/partida.txt")) {
         return false;
     }
 
-    ifstream archivo("partida.txt");
+    ifstream archivo("files/partida.txt");
     if (!archivo) {
         return false;
     }
@@ -69,7 +69,7 @@ bool cargarPartida() {
 
 void guardarResultado() {
     // ios::app agrega al final sin borrar lo anterior
-    ofstream archivo("ranking.txt", ios::app);
+    ofstream archivo("files/ranking.txt", ios::app);
     if (!archivo) {
         return;
     }
@@ -84,7 +84,7 @@ void guardarResultado() {
 }
 
 void guardarProgreso() {
-    ofstream archivo("progreso.txt");
+    ofstream archivo("files/progreso.txt");
     if (!archivo) {
         return;
     }
@@ -93,11 +93,11 @@ void guardarProgreso() {
 }
 
 void cargarProgreso() {
-    if (!existeArchivo("progreso.txt")) {
+    if (!existeArchivo("files/progreso.txt")) {
         secretoDesbloqueado = false;
         return;
     }
-    ifstream archivo("progreso.txt");
+    ifstream archivo("files/progreso.txt");
     if (!archivo) {
         return;
     }
@@ -111,12 +111,12 @@ void mostrarRanking() {
     limpiarPantalla();
     cout << "================ RANKING ================\n";
 
-    if (!existeArchivo("ranking.txt")) {
+    if (!existeArchivo("files/ranking.txt")) {
         cout << "Aun no hay resultados registrados.\n";
         return;
     }
 
-    ifstream archivo("ranking.txt");
+    ifstream archivo("files/ranking.txt");
     string linea;
     bool hayRegistros = false;
 

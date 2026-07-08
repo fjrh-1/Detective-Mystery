@@ -1,5 +1,5 @@
 #include "juego.h"
-#include "datos.h"
+#include "../data/datos.h"
 #include "utilidades.h"
 #include "archivos.h"
 #include <iostream>
@@ -247,7 +247,7 @@ void limpiarEvidencias() {
 
 void nuevaPartida() {
     // Si no hay ranking todavia, es la primera vez que se juega
-    if (!existeArchivo("ranking.txt")) {
+    if (!existeArchivo("files/ranking.txt")) {
         mostrarBienvenida();
     }
     seleccionarEscenario();
@@ -658,7 +658,7 @@ void mostrarResultadoFinal() {
     guardarResultado();
 
     // La partida termino: se borra el archivo de guardado si existia
-    remove("partida.txt");
+    remove("files/partida.txt");
 
     pausar();
 
