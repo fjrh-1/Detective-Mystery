@@ -48,6 +48,7 @@ bool verificarVictoria(int sospechoso, int arma, int habitacion);
 bool verificarDerrota();
 void mostrarResultadoFinal();
 void mostrarReconstruccion();
+void rutaDeLaVerdad();
 
 // Ciclo principal de juego
 void cicloJuego();

@@ -60,6 +60,30 @@ void cargarEscenario(int id) {
                               "a un tripulante. El asesino sigue a bordo...";
             break;
 
+        case 3: // Escenario secreto
+            sospechosos[0] = "El Cuervo";
+            sospechosos[1] = "Madame Iris";
+            sospechosos[2] = "El Relojero";
+            sospechosos[3] = "Vipera";
+            sospechosos[4] = "El Titiritero";
+
+            armas[0] = "Daga ritual";
+            armas[1] = "Hilo de acero";
+            armas[2] = "Frasco de sombra";
+            armas[3] = "Reliquia maldita";
+            armas[4] = "Guante envenenado";
+
+            habitaciones[0] = "Sala del trono";
+            habitaciones[1] = "Cripta";
+            habitaciones[2] = "Galeria de mascaras";
+            habitaciones[3] = "Torre del reloj";
+            habitaciones[4] = "Jardin nocturno";
+
+            escenarioNombre = "La Guarida de La Sombra";
+            escenarioIntro  = "Desbloqueaste el caso prohibido. En la guarida de La Sombra\n"
+                              "hasta sus propios aliados se traicionan entre si...";
+            break;
+
         default: // 0 = Mansion Victoriana
             escenarioActual = 0;
             sospechosos[0] = "Cesar";
@@ -497,6 +521,85 @@ void mostrarReconstruccion() {
     cout << "--------------------------------------------------\n\n";
 }
 
+// Careo final contra La Sombra. Solo se entra tras lograr el rango ORO:
+// tres mentiras y hay que elegir la prueba que desmonta cada una.
+void rutaDeLaVerdad() {
+    limpiarPantalla();
+    cout << "============== RUTA DE LA VERDAD ==============\n\n";
+    cout << "Cuando creias que todo termino, una voz resuena:\n";
+    cout << "  \"Atrapaste a un simple peon, detective.\"\n\n";
+    cout << "De entre las sombras aparece LA SOMBRA, el verdadero\n";
+    cout << "cerebro detras del crimen. Te arrastra a su guarida para\n";
+    cout << "un ultimo duelo: no de armas, sino de VERDADES.\n";
+    cout << "Desmonta sus 3 mentiras antes de perder la credibilidad.\n";
+    cout << "==============================================\n";
+    pausar();
+
+    string mentira[3] = {
+        "Atrapaste a tu culpable. Yo no tengo nada que ver con esto.",
+        "No existe una sola prueba que me conecte con la guarida.",
+        "Esa noche yo estaba lejos. Era imposible que fuera yo."
+    };
+    string opcion[3][3] = {
+        { "La confesion del culpable: obedecia ordenes de La Sombra.",
+          "El arma estaba impecable, sin huellas.",
+          "Esa noche hubo una fuerte tormenta." },
+        { "El culpable jamas te ha visto en persona.",
+          "El plano de la guarida llevaba TU firma.",
+          "La puerta principal estaba cerrada con llave." },
+        { "Un testigo dice haberte visto en otra ciudad.",
+          "El barco zarpo recien al amanecer siguiente.",
+          "El reloj de la torre se detuvo a la hora del crimen, contigo dentro." }
+    };
+    int correcto[3] = { 0, 1, 2 };
+
+    int credibilidad = 3;
+    bool atrapado = true;
+
+    for (int fase = 0; fase < 3 && atrapado; fase++) {
+        limpiarPantalla();
+        cout << "--- CAREO " << (fase + 1) << " de 3 ---   Credibilidad: "
+             << credibilidad << "\n\n";
+        cout << "LA SOMBRA: \"" << mentira[fase] << "\"\n\n";
+        cout << "Que prueba la desmonta?\n";
+        for (int i = 0; i < 3; i++) {
+            cout << (i + 1) << ". " << opcion[fase][i] << "\n";
+        }
+
+        int eleccion = leerOpcion(1, 3) - 1;
+        while (eleccion != correcto[fase]) {
+            credibilidad--;
+            if (credibilidad <= 0) {
+                atrapado = false;
+                break;
+            }
+            cout << "\nEsa prueba no la desmonta. Te queda " << credibilidad
+                 << " de credibilidad.\nIntenta otra vez:\n";
+            eleccion = leerOpcion(1, 3) - 1;
+        }
+
+        if (eleccion == correcto[fase]) {
+            cout << "\nEXACTO! La Sombra retrocede un paso, acorralada...\n";
+            pausar();
+        }
+    }
+
+    limpiarPantalla();
+    cout << "================== FINAL ==================\n\n";
+    if (atrapado) {
+        cout << "*** FINAL VERDADERO ***\n\n";
+        cout << "Sin una sola mentira donde esconderse, La Sombra cae de\n";
+        cout << "rodillas. El verdadero cerebro del crimen esta tras las\n";
+        cout << "rejas. Resolviste el caso que nadie pudo. Eres una LEYENDA.\n";
+    } else {
+        cout << "*** CASI LO TIENES... ***\n\n";
+        cout << "Perdiste toda tu credibilidad. La Sombra escapa entre la\n";
+        cout << "niebla, riendo y jurando volver. La caza continuara otro dia.\n";
+    }
+    cout << "==========================================\n";
+    pausar();
+}
+
 void mostrarResultadoFinal() {
     limpiarPantalla();
     cout << "================ RESULTADO FINAL ================\n\n";
@@ -559,6 +662,10 @@ void mostrarResultadoFinal() {
 
     pausar();
 
+    // El rango ORO da paso al careo final
+    if (calificacionFinal == "ORO") {
+        rutaDeLaVerdad();
+    }
 }
 
 // ============ CICLO PRINCIPAL DE JUEGO ============
