@@ -1,28 +1,63 @@
-#include <iostream>   // entrada y salida de información
-#include <string>     // cadenas de texto
-#include <cstdlib>    // randomizador
-#include <ctime>      // tiempo
-#include <fstream>    // archivos
+#include "datos.h"
+#include "utilidades.h"
+#include "juego.h"
+#include "archivos.h"
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+using namespace std;
 
-//  Arreglo de datos en formato cadena de texto
-string sospechosos[5];
-string armas[5];
-string habitaciones[5];
-string evidencias[20];
+int main() {
+    // Semilla aleatoria, una sola vez al iniciar
+    srand((unsigned int)time(0));
 
-//  Variables para el calculo de turnos, acusaciones y la lógica del juego.
-int cantidadEvidencias = 0;
-int culpable;
-int armaCorrecta;
-int habitacionCorrecta;
-int turnos;
-int acusaciones;
-bool jugando;
-bool jugarOtraVez;
+    // Escenario por defecto (Mansion); Nueva partida deja elegir otro
+    cargarEscenario(0);
 
-int main(){
-    // Randomizador de partidas, para que cada partida sea distinta
-    srand(time(NULL));
+    // Saber si el escenario secreto ya se desbloqueo
+    cargarProgreso();
+
+    bool salir = false;
+
+    while (!salir) {
+        limpiarPantalla();
+        mostrarMenuPrincipal();
+        int opcion = leerOpcion(1, 5);
+
+        switch (opcion) {
+            case 1: // Nueva partida
+                nuevaPartida();
+                cicloJuego();
+                break;
+
+            case 2: // Cargar partida
+                if (cargarPartida()) {
+                    reconstruirTablero();
+                    cout << "Partida cargada correctamente.\n";
+                    pausar();
+                    cicloJuego();
+                } else {
+                    cout << "No existe una partida guardada.\n";
+                    pausar();
+                }
+                break;
+
+            case 3: // Ranking
+                mostrarRanking();
+                pausar();
+                break;
+
+            case 4: // Instrucciones
+                mostrarInstrucciones();
+                pausar();
+                break;
+
+            case 5: // Salir
+                salir = true;
+                cout << "Gracias por jugar. Hasta luego!\n";
+                break;
+        }
+    }
 
     return 0;
 }
